@@ -3,67 +3,58 @@ import math
 print("Welcome to the Social Situation Analyzer System\nPerson One")
 p1n = input("   Enter your name: ")
 p1p = input("   Enter your position (x y): ")
-p1r = input("   Enter your personal space radius: ")
+p1r = float(input("   Enter your personal space radius: "))
 
-#x1, y1 = p1p.split(" ")
+x1, y1 = p1p.split(" ")
 
 print("\nPerson Two")
 p2n = input("   Enter your name: ")
 p2p = input("   Enter your position (x y): ")
-p2r = input("   Enter your personal space radius: ")
+p2r = float(input("   Enter your personal space radius: "))
 
-#x2, y2 = p2p.split(" ")
+x2, y2 = p2p.split(" ")
 
-def circle_overlap(x1, y1, r1, x2, y2, r2):
-    distance = math.sqrt((float(x2) - float(x1)) ** 2 + (float(y2) - float(y1)) ** 2)
 
-    if distance <= abs(r1 - r2) or distance <= r1 + r2:
-        return True
-    else:
-        return False
+# Get distance
+distance = math.sqrt((float(x2) - float(x1)) ** 2 + (float(y2) - float(y1)) ** 2)
 
-x1 = 10
-y1 = 10
-p1r = 10
-x2 = 10
-y2 = 10
-p2r= 10
+# msg
+msg = ("\nSocial Situation Analysis Results:")
 
-print("\nSocial Situation Analysis Results:")
 
-overlap = circle_overlap(x1, y1, float(p1r), x2, y2, float(p2r))
-if overlap:
-    print("The Circles overlap")
+# Person Test
+if distance < float(p1r):
+    pt1 = True
+else:
+    pt1 = False
 
-inside = circle_overlap(x1, y1, float(p1r), x2, y2, float(p2r))
-if inside:
-    print("The Circle is inside")
+if distance < float(p2r):
+    pt2 = True
+else:
+    pt2 = False
 
-no_overlap = circle_overlap(x1, y1, float(p1r), x2, y2, float(p2r))
-if no_overlap:
-    print("The Circles don't overlap")
+msg += ("\n    Person Test: ")
 
-"""# Person Test
-if distance < p1r:
-    print("Person Two is in Person One's personal space")
-elif distance < p2r:
-    print("Person One is in Person Two's personal space")
-elif distance > p1r:
-    print("")
-elif distance > p2r:
-    print("")
+if pt1 and pt2:
+    msg += (p1n + " and " + p2n + " are in each other's personal space")
+elif pt1:
+    msg += (p2n + " is in " + p1n +"'s personal space")
+elif pt2:
+    msg += (p1n + " is in " + p2n + "'s personal space")
+elif not (pt1 and pt2):
+    msg += ("Neither " + p1n + " nor " + p2n + " is in the other's personal space")
+
 
 # Space Test
-if distance < p1r:
-    print("Person Two is in Person One's personal space")
-elif distance < p2r:
-    print("Person One is in Person Two's personal space")
-elif distance > p1r:
-    print("")
-elif distance > p2r:
-    print("")
+msg += ("\n    Space Test: ")
 
-print(distance)"""
+if distance <= p1r - p2r:
+    msg += (p2n + "'s personal space is entirely inside " + p1n + "'s personal space")
+elif distance <= p2r - p1r:
+    msg += (p1n + "'s personal space is entirely inside " + p2n + "'s personal space")
+elif distance < p1r + p2r:
+    msg += (p1n + " and " + p2n + "'s personal spaces overlap")
+else:
+    msg += (p1n + " and " + p2n + "'s personal spaces do not overlap")
 
-"""Person Test: Bob is in Alice's personal space
-    Space Test: Alice and Bob's personal spaces overlap"""
+print(msg)
